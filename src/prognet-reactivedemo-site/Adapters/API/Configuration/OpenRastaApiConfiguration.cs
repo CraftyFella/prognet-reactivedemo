@@ -28,6 +28,22 @@ namespace reactivedemosite.Adapters.API.Configuration
                     .ForMediaType("application/json")
                     .ForExtension("js")
                     .ForExtension("json");
+
+                ResourceSpace.Has.ResourcesOfType<PersonViewModel>()
+                   .AtUri("/people/{id}")
+                   .HandledBy<PeopleEndPointHandler>()
+                   .TranscodedBy<JsonDataContractCodec>()
+                   .ForMediaType("application/json")
+                   .ForExtension("js")
+                   .ForExtension("json");
+
+                ResourceSpace.Has.ResourcesOfType<PersonViewModel>()
+                   .AtUri("/people")
+                   .HandledBy<PeopleEndPointHandler>()
+                   .TranscodedBy<JsonDataContractCodec>()
+                   .ForMediaType("application/json")
+                   .ForExtension("js")
+                   .ForExtension("json");
             }
         }
     }

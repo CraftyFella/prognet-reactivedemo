@@ -131,9 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\API\Configuration\DependencyPipelineContributor.cs" />
+    <Compile Include="Adapters\API\Handlers\PeopleEndPointHandler.cs" />
+    <Compile Include="Adapters\API\Resources\PersonViewModel.cs" />
     <Compile Include="Adapters\Database\CategoriesDatabase.cs" />
+    <Compile Include="Adapters\Database\PeopleDatabase.cs" />
+    <Compile Include="Adapters\Database\TestPeopleDatabase.cs" />
+    <Compile Include="Adapters\Tests\AddAPerson.cs" />
     <Compile Include="Adapters\Tests\AddACategory.cs" />
+    <Compile Include="Domain\Person.cs" />
+    <Compile Include="Ports\Commands\AddPersonCommand.cs" />
+    <Compile Include="Ports\Handlers\AddPersonCommandHandler.cs" />
     <Compile Include="Ports\Handlers\AddCategoryCommandHandler.cs" />
+    <Compile Include="Ports\Persistance\IAmAPeopleDatabase.cs" />
     <Compile Include="Ports\Persistance\IAmACategoriesDatabase.cs" />
     <Compile Include="Adapters\Database\TestCategoriesDatabase.cs" />
     <Compile Include="Adapters\Tests\GetACategory.cs" />
@@ -141,8 +150,10 @@
     <Compile Include="Ports\Commands\AddCategoryCommand.cs" />
     <Compile Include="Adapters\API\Handlers\CategoriesEndPointHandler.cs" />
     <Compile Include="Adapters\API\Resources\CategoryViewModel.cs" />
-    <Compile Include="Adapters\API\Configuration\OpenRastaConfiguration.cs" />
+    <Compile Include="Adapters\API\Configuration\OpenRastaApiConfiguration.cs" />
+    <Compile Include="Ports\ViewModelRetrievers\PesonViewModelRetriever.cs" />
     <Compile Include="Ports\ViewModelRetrievers\CategoryViewModelRetriever.cs" />
+    <Compile Include="Ports\ViewModelRetrievers\IAmAPersonViewModelRetriever.cs" />
     <Compile Include="Ports\ViewModelRetrievers\IAmACategoryViewModelRetriever.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

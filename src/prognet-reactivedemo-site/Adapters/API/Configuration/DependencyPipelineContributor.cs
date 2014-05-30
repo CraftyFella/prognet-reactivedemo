@@ -35,11 +35,21 @@ namespace reactivedemosite.Adapters.API.Configuration
 
         private PipelineContinuation InitializeContainer(ICommunicationContext arg)
         {
-            var container = new TinyIoCAdapter(new TinyIoCContainer());
+            var tinyIoCContainer = new TinyIoCContainer();
+            var container = new TinyIoCAdapter(tinyIoCContainer);
             //HACK! For now dependencies may need to be in both containers to allow resolution
+
             container.Register<IHandleRequests<AddCategoryCommand>, AddCategoryCommandHandler>().AsMultiInstance();
             container.Register<IAmACategoryViewModelRetriever, CategoryViewModelRetriever>().AsMultiInstance();
             container.Register<IAmACategoriesDatabase, CategoriesDatabase>().AsMultiInstance();
+            
+            container.Register<IAmAPersonViewModelRetriever, PersonViewModelRetriever>().AsMultiInstance();
+            container.Register<IHandleRequests<AddPersonCommand>, AddPersonCommandHandler>().AsMultiInstance();
+
+            var inMemoryDatabase = new TestPeopleDatabase();
+
+            tinyIoCContainer.Register<IAmAPeopleDatabase>(inMemoryDatabase);
+
             ILog logger = LogManager.GetLogger("Categories");
             container.Register<ILog, ILog>(logger);
             container.Register<IAmARequestContextFactory, InMemoryRequestContextFactory>().AsMultiInstance();
@@ -54,13 +64,13 @@ namespace reactivedemosite.Adapters.API.Configuration
             container.Register<IAmACommandProcessor, IAmACommandProcessor>(commandProcessor);
 
             resolver.AddDependencyInstance<IAdaptAnInversionOfControlContainer>(container, DependencyLifetime.Singleton);
-            resolver.AddDependencyInstance<IAmARequestContextFactory>(new InMemoryRequestContextFactory(),
-                DependencyLifetime.PerRequest);
+            resolver.AddDependencyInstance<IAmARequestContextFactory>(new InMemoryRequestContextFactory(), DependencyLifetime.PerRequest);
             resolver.AddDependencyInstance<IAmACommandProcessor>(commandProcessor, DependencyLifetime.Singleton);
-            resolver.AddDependency<IAmACategoryViewModelRetriever, CategoryViewModelRetriever>(
-                DependencyLifetime.Singleton);
+            resolver.AddDependency<IAmACategoryViewModelRetriever, CategoryViewModelRetriever>(DependencyLifetime.Singleton);
+            resolver.AddDependency<IAmAPersonViewModelRetriever, PersonViewModelRetriever>(DependencyLifetime.Singleton);
             resolver.AddDependency<IAmACategoriesDatabase, CategoriesDatabase>(DependencyLifetime.PerRequest);
 
+            resolver.AddDependencyInstance<IAmAPeopleDatabase>(inMemoryDatabase);
 
             return PipelineContinuation.Continue;
         }
